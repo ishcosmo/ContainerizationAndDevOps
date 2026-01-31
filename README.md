@@ -9,4 +9,5 @@
 | S. No. | Experiment |
 | :--- | :--- |
 | 1 | [Comparison of Virtual Machines (VMs) and Containers](./LAB/Experiment1) |
+| 2 | [Docker Installation, Configuration and Image management ](./LAB/Experiment2) |
 
