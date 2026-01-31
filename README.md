@@ -9,5 +9,5 @@
 
 | S. No. | Experiment |
 | :--- | :--- |
-| 1 | [Comparison of Virtual Machines (VMs) and Containers](./Lab/Experiment1/README.md) |
-| 2 | [Docker Installation, Configuration and Image management](./Lab/Experiment2/README.md) |
+| 1 | [Comparison of Virtual Machines (VMs) and Containers](./LAB/Experiment1/README.md) |
+| 2 | [Docker Installation, Configuration and Image management](./LAB/Experiment2/README.md) |
