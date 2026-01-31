@@ -1,0 +1,24 @@
+# Java (Compilers and build files)
+*.class
+*.jar
+*.war
+*.ear
+bin/
+
+# Virtualization & Containers
+.docker/
+*.log
+docker-compose.override.yml
+
+# Environment and Secrets
+.env
+.env.local
+.env.*.local
+
+# OS Specific
+Thumbs.db
+.DS_Store
+
+# VS Code specific
+.vscode/
+.history/
