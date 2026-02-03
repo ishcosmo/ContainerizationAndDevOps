@@ -16,6 +16,6 @@
 
 | S. No. | Title |
 | :--- | :--- |
-| 1 | [Dockerfile tutorial](./blob/main/THEORY/TutorialDockerfile/README.md) |
-| 2 | [Preserving Changes in container](./blob/main/THEORY/PreserveChanges/README.md) |
+| 1 | [Dockerfile tutorial](./THEORY/TutorialDockerfile/README.md) |
+| 2 | [Preserving Changes in container](./THEORY/PreserveChanges/README.md) |
 
