@@ -20,4 +20,6 @@
 | 1 | [Dockerfile tutorial](./THEORY/TutorialDockerfile/README.md) |
 | 2 | [Preserving Changes in container](./THEORY/PreserveChanges/README.md) |
 | 3 | [Class Test: Python Script in Docker](./THEORY/ClassTest/README.md) |
-| 4 | [Assignment- C Containerize](./THEORY/ContainerizeC/README.md) |
+| 4 | [Assignment- C Script in Docker (Singlestage)](./THEORY/Assignment/README.md) |
+| 5 | [C Script in Docker (Multistage)](./THEORY/MultistageBuild/README.md) |
+| 6 | [Java Multistage](./THEORY/MultistageBuildJava/README.md) |
