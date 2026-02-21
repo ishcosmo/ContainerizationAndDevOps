@@ -23,3 +23,5 @@
 | 4 | [Assignment- C Script in Docker (Singlestage)](./THEORY/Assignment/README.md) |
 | 5 | [C Script in Docker (Multistage)](./THEORY/MultistageBuild/README.md) |
 | 6 | [Java Multistage](./THEORY/MultistageBuildJava/README.md) |
+| 7 | [Volume](./THEORY/volume/README.md) |
+| 8 | [Networks](./THEORY/Network/README.md) |

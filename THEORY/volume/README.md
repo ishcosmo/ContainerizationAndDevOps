@@ -48,6 +48,8 @@ The Result: When I created sapid.txt inside the container, Docker saved it into 
 - if in type we give tempfs we can remove the soure type as docker is creating location in memory
 - type = bind case give path (relative/absolute)
 - we can use -v for testing but mount is preferred
+- tempfs for sensitive data
+
 
 1. ![](m1.png)
 

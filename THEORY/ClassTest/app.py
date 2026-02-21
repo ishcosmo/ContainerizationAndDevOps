@@ -1,4 +1,4 @@
-import numpy as np  # dependency for learning purpose
+import numpy as np  
 
 stored_sapid = "500119435"
 while (True):
