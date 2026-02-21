@@ -1,4 +1,4 @@
-## **Experiment 2:** Deploying NGINX using different base images and comparing image layers
+## **Experiment 3:** Deploying NGINX using different base images and comparing image layers
 
 ### ***Objective:***
 1. Deploy NGINX using
