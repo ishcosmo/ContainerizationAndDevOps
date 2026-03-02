@@ -181,3 +181,40 @@ docker run -d \
 ```
 
 ![](./HTMLserved.png)
+## Lab Report: Lab-3 Part-2: Dockerfile Based Flask Web App Containerization
+
+
+## 1. Objective
+* Create and run a Flask web application locally.
+* Define dependencies in `requirements.txt`.
+* Build a Docker image using a `Dockerfile`.
+* Deploy and verify the Flask app inside a Docker container.
+
+- Contents of *app.py*
+```python
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "<h1>NAME: Ishita</h1><p>SAP ID: 500119435</p><p>Lab: Containerization & DevOps</p>"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
+```
+- Contents of *requirements.txt* file
+```text
+flask==2.2.2
+```
+- Contents of *Dockerfile.py*
+```Dockerfile
+FROM python:3.9-slim
+WORKDIR /app
+COPY . /app
+RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE 5000
+CMD ["python", "app.py"]
+```
+1. For Locally installing
+- `pip install -r requirements.txt`
+

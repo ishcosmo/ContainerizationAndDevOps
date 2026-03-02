@@ -1,0 +1,19 @@
+# STAGE 1: Builder stage
+FROM node:18-slim AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+
+# STAGE 2: Production stage
+FROM node:18-alpine
+WORKDIR /app
+# Copy only package files for a clean production install
+COPY --from=builder /app/package*.json ./
+RUN npm install --only=production
+# Copy application source code
+COPY . .
+# Create and switch to non-root user for security
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+EXPOSE 3000
+CMD ["node", "app.js"]
