@@ -1,0 +1,5 @@
+FROM ubuntu
+
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV APP_VERSION=1.0.0
