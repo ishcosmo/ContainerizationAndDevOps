@@ -531,201 +531,287 @@ docker port container-name
 ```
 ![](./49.png)
 ![](./50.png)
-![](./51.png)
-![](./52.png)
+
 
 - 4.6: Port Publishing vs Exposing
 ```docker
 # PORT PUBLISHING (host:container)
 
-docker run -d -p 80:8080 --name app1 nginx# Host port 80 → Container port 8080# Dynamic port publishing
+docker run -d -p 80:8080 --name app1 nginx
+# Host port 80 → Container port 8080# Dynamic port publishing
 
-docker run -d -p 8080 --name app2 nginx# Docker assigns random host port# Multiple ports
+docker run -d -p 8080 --name app2 nginx
+# Docker assigns random host port# Multiple ports
 
-docker run -d -p 80:80 -p 443:443 --name app3 nginx# Specific host IP
+docker run -d -p 80:80 -p 443:443 --name app3 nginx
+# Specific host IP
 
-docker run -d -p 127.0.0.1:8080:80 --name app4 nginx# EXPOSE in Dockerfile (metadata only)# Dockerfile: EXPOSE 80# Still need -p to publish
+docker run -d -p 127.0.0.1:8080:80 --name app4 nginx
+# EXPOSE in Dockerfile (metadata only)
+# Dockerfile: EXPOSE 80# Still need -p to publish
 ```
-![](./53.png)
-![](./54.png)
-![](./55.png)
+![](./51.png)
+![](./52.png)
+
 
 ## Part 5: Complete Real-World Example
 
-Application Architecture:
+=> ***Application Architecture:***
 
-Flask Web App (port 5000)
+- Flask Web App (port 5000)
 
-PostgreSQL Database (port 5432)
+- PostgreSQL Database (port 5432)
 
-Redis Cache (port 6379)
+- Redis Cache (port 6379)
 
-All connected via custom network
+- All connected via custom network
 
 Implementation:
 
+
+
+```docker
 # 1. Create network
+docker network create myapp-network
 
-docker network create myapp-network# 2. Start database with volume
-
+# 2. Start database with volume
 docker run -d \
+  --name postgres \
+  --network myapp-network \
+  -e POSTGRES_PASSWORD=mysecretpassword \
+  -e POSTGRES_DB=mydatabase \
+  -v postgres-data:/var/lib/postgresql/data \
+  postgres:15
 
---name postgres \
-
---network myapp-network \
-
--e POSTGRES_PASSWORD=mysecretpassword \
-
--e POSTGRES_DB=mydatabase \
-
--v postgres-data:/var/lib/postgresql/data \
-
-postgres:15# 3. Start Redis
-
+# 3. Start Redis
 docker run -d \
+  --name redis \
+  --network myapp-network \
+  -v redis-data:/data \
+  redis:7-alpine
 
---name redis \
-
---network myapp-network \
-
--v redis-data:/data \
-
-redis:7-alpine# 4. Start Flask app with all configurations
-
+# 4. Start Flask app with all configurations
 docker run -d \
-
---name flask-app \
-
---network myapp-network \
-
--p 5000:5000 \
-
--v $(pwd)/app:/app \
-
--v app-logs:/var/log/app \
-
--e DATABASE_URL="postgresql://postgres:mysecretpassword@postgres:5432/mydatabase" \
-
--e REDIS_URL="redis://redis:6379" \
-
--e DEBUG="false" \
-
--e LOG_LEVEL="INFO" \
-
---env-file .env.production \
-
-flask-app:latest
+  --name flask-app \
+  --network myapp-network \
+  -p 5000:5000 \
+  -v $(pwd)/app:/app \
+  -v app-logs:/var/log/app \
+  -e DATABASE_URL="postgresql://postgres:mysecretpassword@postgres:5432/mydatabase" \
+  -e REDIS_URL="redis://redis:6379" \
+  -e DEBUG="false" \
+  -e LOG_LEVEL="INFO" \
+  --env-file .env.production \
+  flask-app:latest
+```
 
 
+![](./53.png)
+![](./54.png)
+![](./55.png)
+![](./56.png)
 
+- Monitoring Commands:
 
-
-Monitoring Commands:
-
+```docker
 # Check all components
+docker ps
 
-docker ps# Monitor resources
+# Monitor resources
+docker stats postgres redis flask-app
 
-docker stats postgres redis flask-app# Check logs
+# Check logs
+docker logs -f flask-app
 
-docker logs -f flask-app# Network connectivity test
-
+# Network connectivity test
 docker exec flask-app ping -c 2 postgres
+docker exec flask-app ping -c 2 redis
 
-docker exec flask-app ping -c 2 redis# View network details
-
+# View network details
 docker network inspect myapp-network
+```
+![](./57.png)
+![](./58.png)
+![](./59.png)
+![](./60.png)
+
+## Practice Exercises
+
+## Exercise 1: Database Backup
+```docker
+# Create a PostgreSQL container with volume
+docker run -d \
+  --name postgres-source \
+  --network ishnet \
+  -e POSTGRES_PASSWORD=mysecretpassword \
+  -e POSTGRES_DB=mydatabase \
+  -v postgres-data:/var/lib/postgresql/data \
+  postgres:15
+# Backup data using docker cp or volume backup techniques
+
+- using pg_dump
+docker exec postgres-source pg_dump -U postgres mydatabase > backup.sql
+
+-using docker cp 
+
+docker cp postgres-source:/var/lib/postgresql/data ./postgres-backup-files
+
+# Restore to new container
+docker run -d \
+  --name postgres-restored \
+  --network ishnet \
+  -e POSTGRES_PASSWORD=mysecretpassword \
+  -e POSTGRES_DB=mydatabase \
+  postgres:15
 
 
+cat backup.sql | docker exec -i postgres-restored psql -U postgres -d mydatabase
 
-Quick Reference Cheatsheet
+```
+- firtsly a network called `ishnet` was created usinng `docker network create ishnet`
+![](./61.png)
+## Exercise 2: Multi-Service Setup
 
-Volumes:
+```docker
+# Create: web app + database + cache
+docker run -d --name devops-db --network lab-net \
+  -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_DB=labdb \
+  -v devops-db-data:/var/lib/postgresql/data postgres:15
 
-docker volume create <name>
+docker run -d --name devops-cache --network lab-net \
+  -v devops-cache-data:/data redis:7-alpine
 
-docker run -v <volume>:/path
+docker run -d --name devops-web --network lab-net -p 5001:5000 \
+  -e DATABASE_URL="postgresql://postgres:mysecretpassword@devops-db:5432/labdb" \
+  -e REDIS_URL="redis://devops-cache:6379" \
+  flask-app:latest
 
-docker run -v /host/path:/container/path
+# Use custom network for communication (created lab-net)
 
-docker volume lsdocker volume rm <name>
 
-Environment Variables:
+# Set environment variables for configuration# Monitor all services
+docker exec devops-web ping -c 2 devops-db
+docker exec devops-web ping -c 2 devops-cache
 
-docker run -e VAR=value
+docker logs -f devops-web (for verifying and monitoring)
+```
+- This exercise demonstrates the orchestration of a three-tier architecture (Web, Database, and Cache) using a dedicated Docker network to ensure isolated and secure communication.
 
-docker run --env-file .env# In Dockerfile: ENV VAR=value
+- Custom Network Isolation: Created a bridge network named *lab-net* to allow service discovery via container names instead of static IP addresses.
 
-Monitoring:
+- Service Stack:
 
-docker stats
+- *Web*: Flask-based application (devops-web) exposed on host port 5001.
 
-docker logs -f <container>
+- *Database*: PostgreSQL 15 (devops-db) using a persistent volume for data sovereignty.
 
-docker top <container>
+- *Cache*: Redis 7-Alpine (devops-cache) for high-speed data retrieval.
 
-docker inspect <container>
+- Dynamic Configuration: Utilized environment variables (e.g., DATABASE_URL and REDIS_URL) to securely inject connection strings into the application at runtime.
 
-docker events
+Connectivity Validation: Verified inter-container communication using ping and docker logs to ensure the Flask app could successfully reach both the database and cache layers.
+![](./62.png)
+![](./63.png)
+![](./64.png)
+## Exercise 3: Log Analysis
 
-Networks:
+```docker
+# Run a container that generates logs
+docker run -d \
+  --name log-exporter \
+  -v $(pwd)/host-logs:/var/log/app \
+  flask-app:latest
+# Use docker logs with various filters
 
-docker network create <name>
+#last 10 lines
+docker logs --tail 10 log-exporter 
+#specific time
+docker logs --since 5m log-exporter
+#real time
+docker logs -f log-exporter
+#timestampss
+docker logs -t log-exporter
 
-docker run --network <name>
+# Redirect logs to a file on host using bind mount
+docker logs log-exporter > exercise3_output.log 2>&1
 
-docker network connect <network> <container>
+```
+- Firstly I created a file called **host-logs** for logs
 
-docker network inspect <network>
+- Persistent Logging: Implemented a bind mount to synchronize containerized logs with the host filesystem, ensuring data persistence beyond the container lifecycle.
 
-Practice Exercises
+- Log Filtering: Utilized docker logs with --tail, --since, and -t flags to demonstrate efficient debugging and forensic analysis of service events.
 
-Exercise 1: Database Backup
+- Stream Redirection: Practiced redirecting stdout and stderr to local files for external analysis and reporting.
 
-# Create a PostgreSQL container with volume# Backup data using docker cp or volume backup techniques# Restore to new container
+![](./65.png)
+![](./66.png)
+![](./67.png)
+## Exercise 4: Network Isolation
 
-Exercise 2: Multi-Service Setup
+```docker
+# Create two separate networks
+docker network create net-alpha
+docker network create net-beta
+# Put containers in different networks
+# Container A in Alpha
+docker run -d --name container-alpha --network net-alpha alpine sleep 3600
 
-# Create: web app + database + cache# Use custom network for communication# Set environment variables for configuration# Monitor all services
+# Container B in Beta
+docker run -d --name container-beta --network net-beta alpine sleep 3600
 
-Exercise 3: Log Analysis
+# Test connectivity between networks
+# This will return "Name or service not known"
+docker exec container-alpha ping -c 2 container-beta
+# Connect a container to both networks
+docker network connect net-beta container-alpha
 
-# Run a container that generates logs# Use docker logs with various filters# Redirect logs to a file on host using bind mount
+#Verificstion
+# This will now succeed
+docker exec container-alpha ping -c 2 container-beta
+```
+- Network Segmentation: Successfully implemented two isolated bridge networks (net-alpha and net-beta) to enforce security boundaries between containers.
 
-Exercise 4: Network Isolation
+- Isolation Verification: Confirmed that containers on separate networks are unreachable by default, preventing unauthorized cross-service communication.
 
-# Create two separate networks# Put containers in different networks# Test connectivity between networks# Connect a container to both networks
+- Dual-Homing: Demonstrated multi-network connectivity by attaching a single container to two networks, enabling it to act as a secure gateway or proxy between isolated segments.
+![](./68.png)
 
-Cleanup
-
+## Cleanup
+```docker
 # Stop and remove all containers
 
 docker stop $(docker ps -aq)
 
 docker rm $(docker ps -aq)# Remove all volumes
 
-docker volume prune -f# Remove all networks (except defaults)
+docker volume prune -f
+# Remove all networks (except defaults)
 
-docker network prune -f# Remove unused images
+docker network prune -f
+# Remove unused images
 
 docker image prune -f
+```
+![](./69.png)
+![](./70.png)
 
-Key Takeaways
+## Key Takeaways
 
-Volumes persist data beyond container lifecycle
+- Volumes persist data beyond container lifecycle
 
-Environment variables configure containers dynamically
+- Environment variables configure containers dynamically
 
-Monitoring commands help debug and optimize containers
+- Monitoring commands help debug and optimize containers
 
-Networks enable secure container communication
+- Networks enable secure container communication
 
-Always use named volumes for production data
+- Always use named volumes for production data
 
-Custom networks provide better isolation and DNS
+- Custom networks provide better isolation and DNS
 
-Monitor resource usage to prevent issues
+- Monitor resource usage to prevent issues
 
-Use .env files for sensitive configuration
+- Use .env files for sensitive configuration
 
-This experiment covers essential Docker features for building, configuring, and managing production-ready containerized applications. guve me readme code for this
+- This experiment covers essential Docker features for building, configuring, and managing production-ready containerized applications.
