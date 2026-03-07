@@ -22,3 +22,11 @@ Thumbs.db
 # VS Code specific
 .vscode/
 .history/
+# Ignore Postgres data files
+postgres-data/
+*.pid
+*.opts
+*.conf
+# Ignore logs
+host-logs/
+*.log
