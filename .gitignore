@@ -30,3 +30,8 @@ postgres-data/
 # Ignore logs
 host-logs/
 *.log
+postgres-data/
+postgres-backup-files/
+**/base/
+**/global/
+**/pg_*
