@@ -1,4 +1,4 @@
-# Containerization and DevOps Lab
+# Containerization and DevOps 
 
 | Name | *Ishita* |
 | :--- | :--- |
@@ -15,6 +15,7 @@
 | 4 | [Docker essentials - Dockerfile, .dockerignore, tagging and publishing](./LAB/Experiment4/README.md) |
 | 5 | [Docker - Volumes, Environment Variables, Monitoring and Networks](./LAB/Experiment5/README.md) |
 | 6 | [Docker - Volumes, Environment Variables, Monitoring and Networks](./LAB/Experiment6/README.md) |
+
 ## Theory
 
 | S. No. | Title |
