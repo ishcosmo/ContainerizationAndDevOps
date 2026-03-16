@@ -14,7 +14,7 @@
 | 3 | [Deploying NGINX using different base images and comparing image layers ](./LAB/Experiment3/README.md) |
 | 4 | [Docker essentials - Dockerfile, .dockerignore, tagging and publishing](./LAB/Experiment4/README.md) |
 | 5 | [Docker - Volumes, Environment Variables, Monitoring and Networks](./LAB/Experiment5/README.md) |
-
+| 6 | [Docker - Volumes, Environment Variables, Monitoring and Networks](./LAB/Experiment6/README.md) |
 ## Theory
 
 | S. No. | Title |
@@ -31,3 +31,10 @@
 | 10 | [Docker Compose 2.0](./THEORY/Compose2/README.md) |
 | 11 | [Scaling with Docker Compose](./THEORY/ScaleCompose/README.md) |
 | 12 | [Docker Swarm](./THEORY/DockerSwarm/README.md) |
+
+
+## Project Assignment
+
+| S. No. | Experiment |
+| :--- | :--- |
+| 1 | [Containerized Web Application with PostgreSQL using Docker Compose and Macvlan/Ipvlan](./ProjectAssignment/README.md) |
