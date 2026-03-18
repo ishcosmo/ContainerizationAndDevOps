@@ -32,6 +32,7 @@
 | 10 | [Docker Compose 2.0](./THEORY/Compose2/README.md) |
 | 11 | [Scaling with Docker Compose](./THEORY/ScaleCompose/README.md) |
 | 12 | [Docker Swarm](./THEORY/DockerSwarm/README.md) |
+| 13 | [Kubernetes](./THEORY/Kubernetes/README.md) |
 
 
 ## Project Assignment
