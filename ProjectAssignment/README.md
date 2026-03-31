@@ -15,7 +15,6 @@ Design, Containerize and deploy a web application using:
 project-assignment/
 ├── backend/
 │   ├── main.py
-│   ├── requirements.txt
 │   └── Dockerfile
 ├── database/
 │   └── Dockerfile
