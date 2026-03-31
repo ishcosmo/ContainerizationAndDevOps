@@ -293,3 +293,9 @@ The transition to an Alpine-based multi-stage build resulted in a a significaant
 | Network switch impact| High (Switch must learn multiple MACs) | Lower (switch sees olny one MAC) |
 | Scalability | Limited by switch | Highly scalable |
 | Use case | Legacy apps,Small deployments | Modern and Large-scale deployments |
+
+**_Host Isolation Problem_**
+
+Host isolation is a security and design feature of the Linux kernel. When using Macvlan, the kernel prevents the host's physical interface from communicating with its own sub-interfaces (the containers) to avoid routing loops.
+
+ this meant I couldn't access the API from my laptop's browser. Howevver the Backend and Database could still talk to each other because they were on the same virtual switch, and I was able to test them by running commands from inside the container using `docker exec`
