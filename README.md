@@ -35,6 +35,8 @@
 | 13 | [Kubernetes](./THEORY/Kubernetes/README.md) |
 | 14 | [Portainer](./THEORY/Portainer/README.md) |
 | 15 | [Class Assignment- Deploy and manage a simple Apache-based web server ](./THEORY/ClassAssignment/README.md) |
+| 16 | [Kubernetes](./THEORY/Kubernetes/README.md) |
+
 
 
 ## Project Assignment
