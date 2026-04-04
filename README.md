@@ -14,7 +14,6 @@
 | 3 | [Deploying NGINX using different base images and comparing image layers ](./LAB/Experiment3/README.md) |
 | 4 | [Docker essentials - Dockerfile, .dockerignore, tagging and publishing](./LAB/Experiment4/README.md) |
 | 5 | [Docker - Volumes, Environment Variables, Monitoring and Networks](./LAB/Experiment5/README.md) |
-| 6 | [Docker - Volumes, Environment Variables, Monitoring and Networks](./LAB/Experiment6/README.md) |
 
 ## Theory
 
