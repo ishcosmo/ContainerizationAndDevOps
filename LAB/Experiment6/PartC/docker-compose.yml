@@ -1,0 +1,12 @@
+services:
+  limited-app:
+    image: nginx:alpine
+    container_name: limited-app
+    ports:
+      - "9000:9000"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
