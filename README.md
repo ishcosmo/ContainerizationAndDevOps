@@ -16,7 +16,8 @@
 | 5 | [Docker - Volumes, Environment Variables, Monitoring and Networks](./LAB/Experiment5/README.md) |
 | 6 | [Docker Compose vs Docker Run](./LAB/Experiment6/README.md) |
 | 7 | [CI/CD Pipeline using Jenkins, GitHub, and Docker Hub](./LAB/Experiment7/README.md) |
-| 8 | [Ansible](./LAB/Experiment9/README.md) |
+| 9 | [Ansible](./LAB/Experiment9/README.md) |
+| 10 | [Working with SonarQube](./LAB/Experiment10/README.md) |
 
 ## Theory
 
