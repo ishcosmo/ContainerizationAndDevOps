@@ -19,6 +19,7 @@
 | 9 | [Ansible](./LAB/Experiment9/README.md) |
 | 10 | [Working with SonarQube](./LAB/Experiment10/README.md) |
 | 11 | [Container Orchestration via Docker Swarm](./LAB/Experiment11/README.md) |
+| 12 | [Study and Analyse Container Orchestration using Kubernetes](./LAB/Experiment12/README.md) |
 
 
 ## Theory
