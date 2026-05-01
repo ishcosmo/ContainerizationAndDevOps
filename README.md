@@ -42,6 +42,8 @@
 | 14 | [Portainer](./THEORY/Portainer/README.md) |
 | 15 | [Class Assignment- Deploy and manage a simple Apache-based web server ](./THEORY/ClassAssignment/README.md) |
 | 16 | [Kubernetes](./THEORY/Kubernetes/README.md) |
+| 17 | [GitHub](./THEORY/THEORY/Git 2.0) |
+| 18 | [DevOps From IBM Perspective](./THEORY/DevOpsFromIBMPerspective(Assignment)) |
 
 
 
