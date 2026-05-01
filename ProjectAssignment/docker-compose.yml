@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app-db:
-    build: ./database
+    image: postgres:15-alpine
     container_name: task_db_container
     environment:
       POSTGRES_USER: admin_user
@@ -10,18 +10,20 @@ services:
       POSTGRES_DB: task_db
     volumes:
       - task_data:/var/lib/postgresql/data
-    networks:
-      app_vlan:
-        ipv4_address: 192.168.20.10
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin_user -d task_db"]
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      backend_net:
+        ipv4_address: 192.168.20.10
 
   app-backend:
     build: ./backend
     container_name: task_backend_container
+    ports:
+      - "8080:3000"
     depends_on:
       app-db:
         condition: service_healthy
@@ -31,12 +33,16 @@ services:
       DB_PASSWORD: password_2026
       DB_NAME: task_db
     networks:
-      app_vlan:
+      backend_net:
         ipv4_address: 192.168.20.20
 
 networks:
-  app_vlan:
-    external: true
+  backend_net:
+    driver: bridge 
+    ipam:
+      config:
+        - subnet: 192.168.20.0/24
+          gateway: 192.168.20.1
 
 volumes:
   task_data:
